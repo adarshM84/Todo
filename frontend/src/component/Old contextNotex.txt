@@ -1,0 +1,54 @@
+import './App.css';
+import React, { useState } from 'react';
+import Home from './component/Home.js';
+import About from './component/About.js';
+import noteContext from './context/notes/NotesContext';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
+import Navbar from './component/Navbar';
+
+function App() {
+  const [selectedOption, setOption] = useState("Home");
+  const [mode, setMode] = useState("light");
+
+  const getOption = (event) => {
+    // console.log(event,"event");
+    setOption(event.target.name);
+  }
+
+  const toogle = () => {
+    // console.log(selectedOption, "selectedOption")
+    if (mode === "light") {
+      document.body.style.backgroundColor = "rgb(136 136 207)";
+      document.body.style.color = "white";
+      setMode("dark",);
+    } else {
+      document.body.style.backgroundColor = "white";
+      document.body.style.color = "black";
+      setMode("light");
+    }
+
+  }
+  let a = {
+    "name": "Adarsh g"
+  }
+  return (
+    <>
+      <Router>
+       
+          <noteContext.Provider value={{ a }}>
+            <Navbar getOption={getOption} mode={mode} toogle={toogle} selectedOption={selectedOption} />
+            <Routes>
+              <Route exact path="/" element={<Home mode={mode} getOption={getOption} />} />
+              <Route exact path="/about" element={<About mode={mode} getOption={getOption} />} />
+            </Routes>
+          </noteContext.Provider>
+      </Router>
+    </>
+  );
+}
+
+export default App;
